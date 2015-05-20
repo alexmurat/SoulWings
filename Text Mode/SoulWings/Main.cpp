@@ -5,7 +5,7 @@
 #include "Console.h"
 #include "Jogo.h"
 
-
+// Author: Alex Murat
 
 void main(){
 	srand(time(NULL));
