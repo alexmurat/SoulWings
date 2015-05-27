@@ -66,6 +66,9 @@ char nome[512], diretorio[64];
 // Variáveis para os personagens
 unsigned int spNave = 0, spTiro = 0, spGeomPeq1 = 0;
 
+// Variáveis do cenário
+unsigned int spFundo = 0;
+
 // Variáveis para os recursos de áudio do jogo
 unsigned int menuSobre = 0;
 unsigned int menuEscolhe = 0;
@@ -102,8 +105,8 @@ void CarregaRecursos()
 	sprintf(nome, "%s/menus/principal_sair.png", diretorio);
 	botaoSair = C2D2_CarregaSpriteSet(nome, 200, 40);
 	// Carrega os personagens
-	sprintf(nome, "%s/sprites/jogador.png", diretorio);
-	spNave = C2D2_CarregaSpriteSet(nome, 150, 150);
+	sprintf(nome, "%s/debug1.png", diretorio);
+	spNave = C2D2_CarregaSpriteSet(nome, 75, 75);
 	sprintf(nome, "%s/sprites/tiro.png", diretorio);
 	spTiro = C2D2_CarregaSpriteSet(nome, 8, 8);
 	sprintf(nome, "%s/sprites/geometroide_pequeno1.png", diretorio);
@@ -123,6 +126,9 @@ void CarregaRecursos()
 	sprintf(nome, "%s/audio/musica.ogg", diretorio);
 	mfundo = CA2_CarregaMusica(nome);
 
+	// Carrega Fundo
+	sprintf(nome, "%s/fundo.png", diretorio);
+	spFundo = C2D2_CarregaSpriteSet(nome, 1024, 768);
 }
 
 /* Função para descarregar os recursos áudio-visuais do jogo. */

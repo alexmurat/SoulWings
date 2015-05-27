@@ -191,101 +191,7 @@ void TelaPrincipal()
 					}
 					break;
 		}
-		// Determina o estado dos botões
-		/*if (menu == 0){
-			
-		}
-		else
-			jogar = BOTAO_INATIVO;
 		
-		if (teclado[C2D2_BAIXO].pressionado || teclado[C2D2_BAIXO].ativo)
-		{
-			if (opcoes == BOTAO_INATIVO)
-			{
-				opcoes = BOTAO_RECEMSELECIONADO;
-				CA2_TocaEfeito(menuSobre, 0);
-			}
-			else
-				opcoes = BOTAO_SELECIONADO;
-			if (teclado[C2D2_ENTER].pressionado)
-			{
-				CA2_TocaEfeito(menuEscolhe, 0);
-				estadoJogo = TELA_OPCOES;
-			}
-		}
-		else
-			opcoes = BOTAO_INATIVO;
-
-		if (C2D2_ColidiuSprites(cursor, 0, mouse->x, mouse->y, botaoOpcoes, 1, 450, 350))
-		{
-			if (opcoes == BOTAO_INATIVO)
-			{
-				opcoes = BOTAO_RECEMSELECIONADO;
-				CA2_TocaEfeito(menuSobre, 0);
-			}
-			else
-				opcoes = BOTAO_SELECIONADO;
-			if (mouse->botoes[C2D2_MESQUERDO].pressionado)
-			{
-				CA2_TocaEfeito(menuEscolhe, 0);
-				estadoJogo = TELA_OPCOES;
-			}
-		}
-		else
-			opcoes = BOTAO_INATIVO;
-		if (C2D2_ColidiuSprites(cursor, 0, mouse->x, mouse->y, botaoRecordes, 1, 150, 420))
-		{
-			if (recordes == BOTAO_INATIVO)
-			{
-				recordes = BOTAO_RECEMSELECIONADO;
-				CA2_TocaEfeito(menuSobre, 0);
-			}
-			else
-				recordes = BOTAO_SELECIONADO;
-			if (mouse->botoes[C2D2_MESQUERDO].pressionado)
-			{
-				CA2_TocaEfeito(menuEscolhe, 0);
-				estadoJogo = TELA_RECORDES;
-			}
-		}
-		else
-			recordes = BOTAO_INATIVO;
-		if (C2D2_ColidiuSprites(cursor, 0, mouse->x, mouse->y, botaoCreditos, 1, 450, 420))
-		{
-			if (creditos == BOTAO_INATIVO)
-			{
-				creditos = BOTAO_RECEMSELECIONADO;
-				CA2_TocaEfeito(menuSobre, 0);
-			}
-			else
-				creditos = BOTAO_SELECIONADO;
-			if (mouse->botoes[C2D2_MESQUERDO].pressionado)
-			{
-				CA2_TocaEfeito(menuEscolhe, 0);
-				estadoJogo = TELA_CREDITOS;
-			}
-		}
-		else
-			creditos = BOTAO_INATIVO;
-		if (C2D2_ColidiuSprites(cursor, 0, mouse->x, mouse->y, botaoSair, 1, 300, 490))
-		{
-			if (sair == BOTAO_INATIVO)
-			{
-				sair = BOTAO_RECEMSELECIONADO;
-				CA2_TocaEfeito(menuSobre, 0);
-			}
-			else
-				sair = BOTAO_SELECIONADO;
-			if (mouse->botoes[C2D2_MESQUERDO].pressionado)
-			{
-				CA2_TocaEfeito(menuEscolhe, 0);
-				quit = true;
-			}
-		}
-		else
-			sair = BOTAO_INATIVO;
-
-*/
 
 		// Aqui fazemos o desenho do menu
 		C2D2_LimpaTela();
@@ -325,10 +231,12 @@ void TelaPrincipal()
 void TelaJogo(){
 
 	C2D2_Botao *teclado = C2D2_PegaTeclas();
+	clock_t tInicio, tFim, tDecorrido, tInicio2, tFim2, tDecorrido2;
+	int tflag = 0, tflag2 = 0;
 
 	// Criao jogador e inicializa os campos
 	// Ordem dos valores: tipo, x, y, dx, dy, angulo, vRotacao, xInicial, yInicial
-	Personagem jogador = { NAVE, 181, 550, 0, 0, 0, 0 };
+	Personagem jogador = { NAVE, 209, 600, 0, 0, 0, 0 };
 
 	// Desenha o retangulo pintado
 	//C2D2P_RetanguloPintado(400, 160, 500, 260, 0, 0, 255);
@@ -336,8 +244,48 @@ void TelaJogo(){
 	while (estadoJogo == TELA_JOGO && !teclado[C2D2_ESC].pressionado && !teclado[C2D2_ENCERRA].ativo)
 	{
 		C2D2_LimpaTela();
+		C2D2_DesenhaSprite(spFundo, 0, 0, 0);
 
 		DesenhaPersonagem(&jogador);
+		
+		if(teclado[C2D2_ESQUERDA].ativo)
+			jogador.x = jogador.x - 1;
+		if (teclado[C2D2_DIREITA].ativo)
+			jogador.x = jogador.x + 1;
+		if (teclado[C2D2_CIMA].ativo)
+			jogador.y = jogador.y - 1;
+		if (teclado[C2D2_BAIXO].ativo)
+			jogador.y = jogador.y + 1;
+
+		if (teclado[C2D2_ESQUERDA].pressionado){
+			
+			if (tflag == 0){
+				tInicio = clock();
+				tflag = 1;
+			}
+			else{
+				tFim = clock();
+				tDecorrido = ((double)(tFim - tInicio)) / (CLOCKS_PER_SEC / 1000);
+				if (tDecorrido < 750)
+					jogador.x = jogador.x - 40;
+				tflag = 0;
+			}
+		}
+
+		if (teclado[C2D2_DIREITA].pressionado){
+
+			if (tflag2 == 0){
+				tInicio2 = clock();
+				tflag2 = 1;
+			}
+			else{
+				tFim2 = clock();
+				tDecorrido2 = ((double)(tFim2 - tInicio2)) / (CLOCKS_PER_SEC / 1000);
+				if (tDecorrido2 < 750)
+					jogador.x = jogador.x + 40;
+				tflag2 = 0;
+			}
+		}
 		
 
 		// Roda a lógica dos personagens
@@ -355,7 +303,7 @@ void TelaJogo(){
 		//	DesenhaPersonagem(&tiro);
 		// Dsenha o cursor do mouse
 		//C2D2_DesenhaSprite(cursor, 0, mouse->x, mouse->y);
-		//C2D2P_RetanguloPintado(400, 160, 500, 260, 0, 0, 255);
+		//C2D2P_RetanguloPintado(10, 20, 30, 40, 1, 125, 125);
 
 		C2D2_Sincroniza(C2D2_FPS_PADRAO);
 	}
@@ -382,7 +330,14 @@ void DesenhaPersonagem(Personagem *pers)
 	}
 	// Desenha o sprite. Note que como o personagem tem ângulos de 45º em 45º, basta fazer
 	// a divisão por 45 para obter o quadro correto do desenho
-	C2D2_DesenhaSprite(sprite, 0, pers->x, pers->y);
+	C2D2_Botao *teclado = C2D2_PegaTeclas();
+
+	if (teclado[C2D2_ESQUERDA].ativo)
+			C2D2_DesenhaSprite(sprite, 3, pers->x, pers->y);
+	else if (teclado[C2D2_DIREITA].ativo)
+			C2D2_DesenhaSprite(sprite, 6, pers->x, pers->y);
+	else
+		C2D2_DesenhaSprite(sprite, 0, pers->x, pers->y);
 }
 
 // Função que mostra uma mensagem de erro do sistema
