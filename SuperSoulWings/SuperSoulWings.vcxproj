@@ -80,10 +80,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SuperSoulWings.cpp" />
+    <ClCompile Include="Nave.cpp" />
+    <ClCompile Include="Jogo.cpp" />
+    <ClCompile Include="Recursos.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SuperSoulWings.h" />
+    <ClInclude Include="Jogo.h" />
+    <ClInclude Include="Nave.h" />
+    <ClInclude Include="Recursos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
